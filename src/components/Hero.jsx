@@ -61,17 +61,14 @@ export default function Hero({ socialLinks }) {
           </div>
 
           <div className="hero-highlight-card">
-  <span className="highlight-label">Haitham Husni Aloufee</span>
-  <ul>
-    <li>React Developer with a strong frontend foundation</li>
-    <li>Focused on responsive layouts and polished user experience</li>
-    <li>Committed to clean code and practical product thinking</li>
-  </ul>
-  <p>
-    Open to building modern, reliable, and visually refined web interfaces with
-    clear structure and real user value.
-  </p>
-</div>
+            <span className="highlight-label">{heroContent.highlightLabel}</span>
+            <ul>
+              {heroContent.highlightPoints.map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
+            <p>{heroContent.highlightText}</p>
+          </div>
         </div>
       </div>
     </section>

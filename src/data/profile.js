@@ -33,6 +33,15 @@ export const heroContent = {
   ],
   availability: "Available for freelance work, product teams, and recruiter outreach.",
   note: "Open to building recruiter-friendly, production-ready experiences with clear structure and strong UI quality.",
+  // Edit this card later if you want to change the recruiter-facing summary in the hero.
+  highlightLabel: identity.fullName,
+  highlightPoints: [
+    "React developer with a strong frontend foundation",
+    "Focused on responsive layouts and polished user experience",
+    "Committed to clean code and practical product thinking",
+  ],
+  highlightText:
+    "Open to building modern, reliable, and visually refined web interfaces with clear structure and real user value.",
 };
 
 export const siteCopy = {
@@ -46,9 +55,20 @@ export const siteCopy = {
 };
 
 export const seo = {
+  // Add your final production domain here later for even stronger canonical and sitemap signals.
+  // You can also leave this empty and use a SITE_URL env var on Vercel.
+  siteUrl: "",
+  siteName: "Haitham Aloufee Portfolio",
+  locale: "en_US",
+  imagePath: "/og-image.svg",
   title: `${identity.fullName} | ${identity.title} Portfolio`,
   description:
-    "Haitham Aloufee is a Jordan-based Full Stack Developer building premium React, Next.js, Node.js, Express, and MongoDB web experiences.",
+    "Official portfolio of Haitham Aloufee, a Jordan-based Full Stack Developer building premium React, Next.js, Node.js, Express, and MongoDB web experiences.",
+  alternateNames: [
+    "Haitham Aloufi",
+    "\u0647\u064A\u062B\u0645 \u0627\u0644\u0639\u0648\u0641\u064A",
+    "\u0647\u064A\u062B\u0645",
+  ],
   keywords: [
     "haitham aloufee",
     "haitham aloufi",

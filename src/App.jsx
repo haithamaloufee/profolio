@@ -6,7 +6,7 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import SectionBlock from "./components/SectionBlock";
 import { projects } from "./data/projects";
-import { identity, seo, siteCopy } from "./data/profile";
+import { heroContent, identity, seo, siteCopy } from "./data/profile";
 import { socialLinks } from "./data/socialLinks";
 
 const navItems = [
@@ -15,12 +15,41 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
-const updateMetaTag = (selector, content, attribute = "name") => {
-  const element = document.head.querySelector(`meta[${attribute}="${selector}"]`);
+const ensureMetaTag = (selector, content, attribute = "name") => {
+  let element = document.head.querySelector(`meta[${attribute}="${selector}"]`);
 
-  if (element) {
-    element.setAttribute("content", content);
+  if (!element) {
+    element = document.createElement("meta");
+    element.setAttribute(attribute, selector);
+    document.head.appendChild(element);
   }
+
+  element.setAttribute("content", content);
+};
+
+const ensureLinkTag = (rel, href) => {
+  let element = document.head.querySelector(`link[rel="${rel}"]`);
+
+  if (!element) {
+    element = document.createElement("link");
+    element.setAttribute("rel", rel);
+    document.head.appendChild(element);
+  }
+
+  element.setAttribute("href", href);
+};
+
+const ensureJsonLd = (id, data) => {
+  let element = document.getElementById(id);
+
+  if (!element) {
+    element = document.createElement("script");
+    element.setAttribute("type", "application/ld+json");
+    element.setAttribute("id", id);
+    document.head.appendChild(element);
+  }
+
+  element.textContent = JSON.stringify(data);
 };
 
 export default function App() {
@@ -31,16 +60,70 @@ export default function App() {
     localStorage.setItem("portfolio-theme", theme);
 
     const themeColor = theme === "dark" ? "#0f0d0b" : "#f7efe3";
-    updateMetaTag("theme-color", themeColor);
+    ensureMetaTag("theme-color", themeColor);
   }, [theme]);
 
   useEffect(() => {
+    const siteOrigin = seo.siteUrl || window.location.origin;
+    const canonicalUrl = new URL("/", siteOrigin).toString();
+    const socialImageUrl = new URL(seo.imagePath, siteOrigin).toString();
+    const sameAs = socialLinks
+      .filter((link) => link.id !== "email")
+      .map((link) => link.href);
+
+    const profileStructuredData = {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      url: canonicalUrl,
+      name: seo.title,
+      description: seo.description,
+      mainEntity: {
+        "@type": "Person",
+        name: identity.fullName,
+        alternateName: seo.alternateNames,
+        jobTitle: identity.title,
+        description: heroContent.bio,
+        email: identity.email,
+        image: socialImageUrl,
+        sameAs,
+        homeLocation: {
+          "@type": "Place",
+          name: identity.location,
+        },
+        knowsAbout: heroContent.technologies,
+      },
+    };
+
+    const websiteStructuredData = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: seo.siteName,
+      url: canonicalUrl,
+      description: seo.description,
+      inLanguage: "en",
+    };
+
     document.title = seo.title;
-    updateMetaTag("description", seo.description);
-    updateMetaTag("keywords", seo.keywords.join(", "));
-    updateMetaTag("author", identity.fullName);
-    updateMetaTag("og:title", seo.title, "property");
-    updateMetaTag("og:description", seo.description, "property");
+    ensureMetaTag("description", seo.description);
+    ensureMetaTag("keywords", seo.keywords.join(", "));
+    ensureMetaTag("author", identity.fullName);
+    ensureMetaTag("robots", "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
+    ensureMetaTag("googlebot", "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
+    ensureMetaTag("og:title", seo.title, "property");
+    ensureMetaTag("og:description", seo.description, "property");
+    ensureMetaTag("og:type", "website", "property");
+    ensureMetaTag("og:site_name", seo.siteName, "property");
+    ensureMetaTag("og:url", canonicalUrl, "property");
+    ensureMetaTag("og:image", socialImageUrl, "property");
+    ensureMetaTag("og:image:alt", `${identity.fullName} portfolio preview`, "property");
+    ensureMetaTag("og:locale", seo.locale, "property");
+    ensureMetaTag("twitter:card", "summary_large_image");
+    ensureMetaTag("twitter:title", seo.title);
+    ensureMetaTag("twitter:description", seo.description);
+    ensureMetaTag("twitter:image", socialImageUrl);
+    ensureLinkTag("canonical", canonicalUrl);
+    ensureJsonLd("profile-jsonld", profileStructuredData);
+    ensureJsonLd("website-jsonld", websiteStructuredData);
   }, []);
 
   useEffect(() => {

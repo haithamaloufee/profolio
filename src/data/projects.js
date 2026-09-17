@@ -3,6 +3,32 @@
 // If you add a local image or video later, place it in /public and use paths like "/media/demo.mp4" or "/images/project-cover.jpg".
 export const projects = [
   {
+    id: "Trainers network",
+    title: "Trainers Network",
+    description:
+      "The Youth Trainers Network is a Jordanian platform that brings together qualified young trainers, showcases their expertise and specializations, and creates opportunities for networking, collaboration, and youth empowerment across Jordan.",
+    year: "2026",
+    tags: ["next.js","node.js","React","HTML", "CSS", "JavaScript", "UI Design"],
+    liveUrl: "tms-dev.haitham.website",
+    repoUrl: "https://github.com/haithamaloufee/TMS.git",
+    videoUrl: "",
+    imageUrl: "/tms.png",
+    accent: "gold",
+  },
+  {
+    id: "nashmi",
+    title: "nashmi",
+    description:
+      "Nashmi is a neutral digital space that helps citizens and youth understand updates, follow parties, read legislation, and join responsible dialogue without endorsing any political side.",
+    year: "2026",
+    tags: ["next.js","node.js","React", "AI","HTML", "CSS", "JavaScript", "UI Design"],
+    liveUrl: "https://nashmii.vercel.app/",
+    repoUrl: "https://github.com/haithamaloufee/Nashmi.git",
+    videoUrl: "",
+    imageUrl: "/nashmi.png",
+    accent: "gold",
+  },
+  {
     id: "government-services-portal",
     title: "Government Services Portal",
     description:
@@ -14,19 +40,6 @@ export const projects = [
     videoUrl: "",
     imageUrl: "/gov-portal.png",
     accent: "gold",
-  },
-  {
-    id: "dice-game",
-    title: "Dice Game",
-    description:
-      "Tenzies Game is a fun dice game where the player rolls until all dice show the same value. Players can hold selected dice between rolls to build the matching set and finish in the fewest moves possible.",
-    year: "2026",
-    tags: ["HTML", "CSS", "React", "JavaScript", "UI Design"],
-    liveUrl: "https://haitham-dice-game.vercel.app",
-    repoUrl: "https://github.com/haithamaloufee/dice-game.git",
-    videoUrl: "",
-    imageUrl: "/dice-game.png",
-    accent: "sand",
   },
   {
     id: "chef-haitham",
@@ -41,6 +54,20 @@ export const projects = [
     imageUrl: "/chef-haitham.png",
     accent: "ember",
   },
+  {
+    id: "dice-game",
+    title: "Dice Game",
+    description:
+      "Tenzies Game is a fun dice game where the player rolls until all dice show the same value. Players can hold selected dice between rolls to build the matching set and finish in the fewest moves possible.",
+    year: "2026",
+    tags: ["HTML", "CSS", "React", "JavaScript", "UI Design"],
+    liveUrl: "https://haitham-dice-game.vercel.app",
+    repoUrl: "https://github.com/haithamaloufee/dice-game.git",
+    videoUrl: "",
+    imageUrl: "/dice-game.png",
+    accent: "sand",
+  },
+  
   {
     id: "assimbly-endgame",
     title: "Assimbly Endgame",
@@ -67,4 +94,5 @@ export const projects = [
     imageUrl: "/meme-generator.png",
     accent: "slate",
   },
+  
 ];

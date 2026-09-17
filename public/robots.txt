@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Add SITE_URL in Vercel or set seo.siteUrl in src/data/profile.js to generate sitemap.xml automatically.

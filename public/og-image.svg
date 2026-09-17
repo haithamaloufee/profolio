@@ -1,0 +1,16 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0F0D0B"/>
+  <circle cx="1020" cy="110" r="170" fill="#D4B178" fill-opacity="0.12"/>
+  <circle cx="140" cy="560" r="220" fill="#D4B178" fill-opacity="0.08"/>
+  <rect x="48" y="48" width="1104" height="534" rx="34" fill="#16120E" stroke="#D4B178" stroke-opacity="0.24" stroke-width="2"/>
+  <rect x="88" y="96" width="136" height="136" rx="68" fill="#1E1812" stroke="#D4B178" stroke-opacity="0.4"/>
+  <path d="M132 130H150V165H196V130H214V218H196V182H150V218H132V130Z" fill="#F6EEE2"/>
+  <text x="88" y="318" fill="#D4B178" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="8">FULL STACK DEVELOPER</text>
+  <text x="88" y="404" fill="#F6EEE2" font-family="Arial, sans-serif" font-size="64" font-weight="700">Haitham Aloufee</text>
+  <text x="88" y="464" fill="#B7AA97" font-family="Arial, sans-serif" font-size="28">
+    React, Next.js, Node.js, JavaScript, Express, premium web experiences
+  </text>
+  <text x="88" y="520" fill="#B7AA97" font-family="Arial, sans-serif" font-size="24">
+    Official portfolio and project showcase
+  </text>
+</svg>
