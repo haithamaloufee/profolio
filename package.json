@@ -4,20 +4,33 @@
   "version": "1.0.0",
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": ">=22.12.0"
   },
   "scripts": {
-    "prebuild": "node scripts/generate-seo-files.mjs",
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build && vite build --ssr src/render.jsx --outDir .render && node scripts/prerender.mjs",
+    "preview": "vite preview",
+    "review": "vite --mode review --host 127.0.0.1 --port 4174 --strictPort",
+    "test": "node --test tests/content.test.mjs",
+    "test:browser": "playwright test",
+    "lint": "eslint . && tsc --noEmit",
+    "lighthouse": "node scripts/lighthouse.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
-    "vite": "^5.4.10"
+    "@axe-core/playwright": "^4.14.0",
+    "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.65.0",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^5.2.0",
+    "eslint": "^9.39.5",
+    "globals": "^17.14.0",
+    "lighthouse": "^13.6.0",
+    "typescript": "5.9",
+    "vite": "^7.3.8"
   }
 }
