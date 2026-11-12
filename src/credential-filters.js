@@ -2,7 +2,6 @@ export function enhanceFilters(form) {
   const entries = [...document.querySelectorAll("[data-category]")].map(element => ({
     element,
     summary: element.querySelector("summary"),
-    text: element.textContent.toLowerCase(),
     category: element.dataset.category,
   }));
   const count = document.querySelector("#result-count");
@@ -18,7 +17,11 @@ export function enhanceFilters(form) {
     const category = filters.get("category");
     let visible = 0;
     for (const entry of entries) {
-      const matches = (category === "All" || entry.category === category) && query.every(word => entry.text.includes(word));
+      const categoryMatches = category === "All" || entry.category === category;
+      if (categoryMatches && query[0] && entry.text === undefined) {
+        entry.text = entry.element.textContent.toLowerCase();
+      }
+      const matches = categoryMatches && (!query[0] || query.every(word => entry.text.includes(word)));
       entry.element.hidden = !matches;
       if (matches) visible += 1;
     }
@@ -46,7 +49,7 @@ export function enhanceFilters(form) {
     clearFilters();
     form.elements.q.focus();
   });
-  update();
+  if (form.elements.q.value || form.elements.category.value !== "All") update();
   if (typeof dialog.showModal !== "function") return;
 
   dialog.addEventListener("close", () => {

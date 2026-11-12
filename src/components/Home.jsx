@@ -23,7 +23,7 @@ function Hero() {
             <div className="orbit orbit-outer" aria-hidden="true"></div>
             <div className="orbit orbit-track" aria-hidden="true"><i></i><i></i></div>
             <div className="orbit orbit-inner" aria-hidden="true"></div>
-            <div className="portrait-frame"><Picture image={portrait} sizes="(max-width: 700px) min(70vw, 310px), (max-width: 1100px) 35vw, 390px" eager /></div>
+            <div className="portrait-frame"><Picture image={portrait} sizes="(max-width: 700px) min(60vw, 328px), (max-width: 1100px) 32vw, 390px" eager /></div>
             <span className="frame-point frame-point-start" aria-hidden="true"></span>
             <span className="frame-point frame-point-end" aria-hidden="true"></span>
           </div>

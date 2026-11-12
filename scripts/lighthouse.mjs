@@ -10,7 +10,7 @@ for (const [name, path] of Object.entries(pages)) {
     "node_modules/lighthouse/cli/index.js",
     base + path,
     "--only-categories=performance,accessibility,best-practices,seo",
-    "--chrome-flags=--headless=new",
+    "--chrome-flags=--headless=new --disable-gpu",
     "--output=json",
     "--output-path=.qa/lighthouse/" + name + ".json",
     "--quiet",

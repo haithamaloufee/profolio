@@ -19,7 +19,7 @@ function Credential({ item, localPreview }) {
     <li className="credential" id={item.id} data-category={item.category}>
       <details>
         <summary>
-          <span className="credential-cover" aria-hidden="true">
+          <span className={"credential-cover" + (thumb ? " has-thumb" : "")} aria-hidden="true">
             {thumb
               ? <img src={thumb} srcSet={srcSet} sizes="(max-width: 500px) 78px, (max-width: 780px) 40vw, 340px"
                 alt="" width={360} height={175} loading="lazy" decoding="async" />
