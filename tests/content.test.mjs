@@ -5,7 +5,7 @@ import test from "node:test";
 import { categories, credentials } from "../src/data/credentials.js";
 import { portrait, siteUrl } from "../src/data/profile.js";
 import { projects } from "../src/data/projects.js";
-import { resolveRoute, routes } from "../src/routes.js";
+import { contentByLanguage, resolveRoute, routes } from "../src/routes.js";
 
 test("published credentials are unique, verified and categorized", () => {
   assert.equal(new Set(credentials.map(item => item.id)).size, credentials.length);
@@ -50,10 +50,15 @@ test("static output contains unique search metadata and stays free of local revi
   for (const route of routes) {
     const file = route.path === "/" ? "dist/index.html" : "dist" + route.path + ".html";
     const html = await readFile(file, "utf8");
-    assert.match(html, /<html lang="en">/);
+    assert.ok(html.includes('<html lang="' + route.language + '" dir="' + (route.language === "ar" ? "rtl" : "ltr") + '"'));
+    for (const language of ["en", "ar", "x-default"]) {
+      const counterpart = routes.find(other => other.basePath === route.basePath && other.language === (language === "x-default" ? "en" : language));
+      assert.ok(html.includes('rel="alternate" hrefLang="' + language + '" href="' + siteUrl + counterpart.path + '"'));
+      assert.ok(sitemap.includes('hreflang="' + language + '" href="' + siteUrl + counterpart.path + '"'));
+    }
     assert.ok(html.includes('rel="canonical" href="' + siteUrl + route.path + '"'));
     assert.ok(sitemap.includes("<loc>" + siteUrl + route.path + "</loc>"));
-    assert.match(html, /<meta property="og:image" content="https:\/\/www\.haitham\.website\/og-image\.png"/);
+    assert.ok(html.includes('<meta property="og:image" content="' + siteUrl + (route.language === "ar" ? "/og-image-ar.png" : "/og-image.png") + '"'));
     assert.equal([...html.matchAll(/<h1[\s>]/g)].length, 1);
     assert.doesNotMatch(html, /_review|Local review|noindex|TMS\.git/);
     titles.add(html.match(/<title>(.*?)<\/title>/)[1]);
@@ -65,4 +70,19 @@ test("static output contains unique search metadata and stays free of local revi
   assert.deepEqual(graph.map(node => node["@type"]), ["Person", "WebSite"]);
   assert.equal(graph[0]["@id"], graph[1].publisher["@id"]);
   assert.equal(graph[0].sameAs.length, 2);
+  assert.equal(graph[0].alternateName, "هيثم العوفي");
+  assert.ok(existsSync("dist/og-image-ar.png"));
+});
+
+test("all localized records have complete page copy and preserve their source identity", () => {
+  const { ar, en } = contentByLanguage;
+  assert.deepEqual(Object.keys(ar.copy).sort(), Object.keys(en.copy).sort());
+  assert.deepEqual(ar.credentials.map(item => item.id), en.credentials.map(item => item.id));
+  for (const item of ar.credentials) assert.ok(item.title && item.kind && item.issuer);
+  for (const project of ar.projects) {
+    const original = en.projects.find(item => item.slug === project.slug);
+    assert.equal(project.sections.length, original.sections.length);
+    assert.equal(project.demo, original.demo);
+    assert.ok(project.sections.every(section => section.title && section.body));
+  }
 });

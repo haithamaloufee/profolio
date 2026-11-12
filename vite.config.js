@@ -55,7 +55,8 @@ function editorialPages() {
           const path = new URL(req.url, "http://localhost").pathname;
           if (path.endsWith(".html")) return next();
           try {
-            const html = await readFile(join(server.config.root, server.config.build.outDir, "404.html"), "utf8");
+            const missing = path === "/ar" || path.startsWith("/ar/") ? "ar/404.html" : "404.html";
+            const html = await readFile(join(server.config.root, server.config.build.outDir, missing), "utf8");
             res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
             res.end(req.method === "HEAD" ? undefined : html);
           } catch (error) {

@@ -36,11 +36,14 @@ for (const route of routes) {
     expect(broken).toEqual([]);
   });
 
-  test(route.path + " passes automated WCAG checks", async ({ page }) => {
+  test(route.path + " passes automated WCAG checks in both themes", async ({ page }) => {
     await page.goto(route.path);
     await page.evaluate(() => document.fonts.ready);
-    const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "best-practice"]).analyze();
-    expect(results.violations.map(item => ({ id: item.id, nodes: item.nodes.map(node => node.target) }))).toEqual([]);
+    for (const theme of ["light", "dark"]) {
+      await page.evaluate(value => { document.documentElement.dataset.theme = value; }, theme);
+      const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "best-practice"]).analyze();
+      expect(results.violations.map(item => ({ id: item.id, nodes: item.nodes.map(node => node.target) })), theme).toEqual([]);
+    }
   });
 }
 
@@ -113,9 +116,9 @@ test("content and project navigation remain available without JavaScript", async
 test("motion respects the system setting and an unknown route returns HTTP 404", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  expect(await page.locator(".hero-copy").evaluate(element => getComputedStyle(element).animationName)).toBe("none");
+  expect(await page.locator(".hero-copy h1").evaluate(element => getComputedStyle(element).animationName)).toBe("none");
   await page.locator(".flagship").first().scrollIntoViewIfNeeded();
-  expect(await page.locator("[data-drift]").first().evaluate(element => getComputedStyle(element).transform)).toBe("none");
+  expect(await page.locator("[data-project-motion] .project-screen").first().evaluate(element => getComputedStyle(element).transform)).toBe("none");
   const response = await page.goto("/unknown-url-test");
   expect(response.status()).toBe(404);
   await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible();
@@ -130,7 +133,7 @@ test("scroll reveals and navigation work on a 4× throttled mobile CPU", async (
   const firstProject = page.locator(".flagship").first();
   await firstProject.scrollIntoViewIfNeeded();
   await expect(firstProject).toHaveClass(/entered/);
-  await page.evaluate(() => scrollTo(0, 0));
+  await page.evaluate(() => scrollTo({top: 0, behavior: "instant"}));
   await firstProject.scrollIntoViewIfNeeded();
   await expect(firstProject).toHaveClass(/entered/);
   await firstProject.getByRole("link").click();
@@ -147,8 +150,74 @@ test("portrait responds to pointer movement and scrolling in both directions", a
   await page.mouse.move(bounds.x + bounds.width * .75, bounds.y + bounds.height * .3);
   await expect.poll(() => stage.evaluate(el => parseFloat(el.style.getPropertyValue("--tilt-y")))).toBeGreaterThan(0);
   await page.mouse.move(10, 10);
-  await page.evaluate(() => scrollTo(0, 220));
+  await page.evaluate(() => scrollTo({top: 220, behavior: "instant"}));
   await expect.poll(() => stage.evaluate(el => parseFloat(el.style.getPropertyValue("--hero-scroll")))).toBeGreaterThan(0);
-  await page.evaluate(() => scrollTo(0, 0));
+  await page.evaluate(() => scrollTo({top: 0, behavior: "instant"}));
   await expect.poll(() => stage.evaluate(el => el.style.getPropertyValue("--hero-scroll"))).toBe("0px");
+});
+
+test("explicit locale and theme selections survive navigation and preserve the current section", async ({ page }) => {
+  await page.goto("/#beyond");
+  const root = page.locator("html");
+  await expect(root).toHaveAttribute("lang", "en");
+  const theme = page.getByRole("button", { name: "Dark mode" });
+  await expect(theme).toHaveAttribute("aria-pressed", "false");
+  await theme.click();
+  await expect(root).toHaveAttribute("data-theme", "dark");
+  await page.getByRole("link", { name: "العربية", exact: true }).click();
+  await expect(page).toHaveURL(/\/ar#beyond$/);
+  await expect(root).toHaveAttribute("lang", "ar");
+  await expect(root).toHaveAttribute("dir", "rtl");
+  await expect(page.getByRole("button", { name: "الوضع الداكن" })).toHaveAttribute("aria-pressed", "true");
+  await page.goto("/");
+  await expect(page).toHaveURL(/\/ar$/);
+  await page.goto("/ar/work/youth-trainers-network");
+  await page.getByRole("link", { name: "English", exact: true }).click();
+  await expect(page).toHaveURL(/\/work\/youth-trainers-network$/);
+  await expect(root).toHaveAttribute("lang", "en");
+  await expect(root).toHaveAttribute("data-theme", "dark");
+});
+
+test("saved dark colors are applied before the application module", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("portfolio-theme", "dark"));
+  await page.route("**/assets/*.js", route => route.abort());
+  await page.goto("/ar");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(19, 18, 28)");
+});
+
+test("Arabic credential search, details and errors are localized", async ({ page }) => {
+  await page.goto("/ar/credentials");
+  await expect(page.getByRole("status")).toHaveText("٢٤ شهادة");
+  const search = page.getByLabel("ابحث في الشهادات");
+  await search.fill("أوراكل");
+  await expect(page.getByRole("status")).toHaveText("شهادتان");
+  await search.fill("oracle");
+  await expect(page.getByRole("status")).toHaveText("شهادتان");
+  await page.locator("#oci-architect summary").click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog.getByRole("button", { name: "إغلاق" })).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#oci-architect summary")).toBeFocused();
+  await search.fill("غـير موجود");
+  await expect(page.getByText("لا توجد شهادات تطابق بحثك.")).toBeVisible();
+  const response = await page.goto("/ar/unknown-url-test");
+  expect(response.status()).toBe(404);
+  await expect(page.getByRole("heading", { name: "الصفحة غير موجودة" })).toBeVisible();
+});
+
+test("the community photos match their stories in both languages", async ({ page }) => {
+  for (const [path, chess, team] of [
+    ["/", "Teaching chess", "Building with a student team"],
+    ["/ar", "تعليم الشطرنج", "العمل مع فريق طلابي"],
+  ]) {
+    await page.goto(path);
+    const section = page.locator("#beyond");
+    const chessStory = section.locator("article").filter({ has: page.getByRole("heading", { name: chess }) });
+    const teamStory = section.locator("article").filter({ has: page.getByRole("heading", { name: team }) });
+    await expect(chessStory.getByRole("img")).toHaveAttribute("src", "/media/chess-event.webp");
+    await expect(teamStory.getByRole("img")).toHaveAttribute("src", "/media/student-event.webp");
+    await expect(teamStory.locator("figcaption")).toHaveText(/hackathon|الهاكاثون/);
+    await expect(page.locator("#about img")).toHaveCount(0);
+  }
 });

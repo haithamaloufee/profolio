@@ -11,7 +11,10 @@ const output = routes.map(route => ({
   path: route.path === "/" ? "dist/index.html" : "dist" + route.path + ".html",
   html: renderPage(template, route.path).html,
 }));
-output.push({ path: "dist/404.html", html: renderPage(template, "/404").html });
+output.push(
+  { path: "dist/404.html", html: renderPage(template, "/404", undefined, true).html },
+  { path: "dist/ar/404.html", html: renderPage(template, "/ar/404").html },
+);
 
 await Promise.all(output.map(async ({ path, html }) => {
   await mkdir(dirname(path), { recursive: true });

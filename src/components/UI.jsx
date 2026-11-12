@@ -1,6 +1,6 @@
 export function Arrow({ direction = "right", className = "" }) {
-  const character = { right: "→", up: "↗", down: "↓", left: "←" }[direction];
-  return <span className={"arrow " + className} aria-hidden="true">{character}</span>;
+  const character = { right: "→", up: "↗", down: "↓", left: "←", top: "↑" }[direction];
+  return <span className={"arrow arrow-" + direction + " " + className} aria-hidden="true">{character}</span>;
 }
 
 export function TextLink({ href, children, direction = "right", className = "" }) {

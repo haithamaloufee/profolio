@@ -70,8 +70,8 @@ export const credentials = records.filter(item => item.source.status === "verifi
     first.title.localeCompare(second.title));
 
 /** @param {string} value */
-export function formatDate(value, exact = false) {
-  return new Intl.DateTimeFormat("en", {
+export function formatDate(value, exact = false, language = "en") {
+  return new Intl.DateTimeFormat(language === "ar" ? "ar-JO-u-nu-arab" : "en", {
     year: "numeric", month: "short", day: exact && value.length === 10 ? "numeric" : undefined, timeZone: "UTC",
   }).format(new Date(value.length === 7 ? value + "-01" : value));
 }

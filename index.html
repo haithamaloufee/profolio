@@ -1,17 +1,28 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr" id="top">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#faf9fc" />
+    <script>
+      try {
+        if (localStorage.getItem("portfolio-theme") === "dark") {
+          document.documentElement.dataset.theme = "dark";
+          document.querySelector('meta[name="theme-color"]').content = "#13121c";
+        }
+        if (location.pathname === "/" && localStorage.getItem("portfolio-language") === "ar") {
+          location.replace("/ar" + location.search + location.hash);
+        }
+      } catch { /* Storage can be unavailable in private or restricted contexts. */ }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href="/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/src/index.css" />
     <noscript><style>
-      #credential-filters { display: none; }
-      @media (max-width: 700px) {
+      #credential-filters, .theme-toggle { display: none !important; }
+      @media (max-width: 900px) {
         .menu-toggle { display: none !important; }
-        #site-nav { display: flex !important; }
+        #site-nav { display: flex !important; position: static !important; }
       }
     </style></noscript>
     <!--page-head-->

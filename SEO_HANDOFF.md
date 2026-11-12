@@ -1,20 +1,20 @@
 # SEO and Search Console handoff
 
-## Completed in the build
+## Implemented and verified locally
 
-- Six prerendered HTML routes with unique titles and descriptions, semantic links, English language metadata, absolute canonical URLs and per-route Open Graph and Twitter metadata.
-- 1200 × 630 social PNG with the updated portrait. Homepage `Person` and `WebSite` JSON-LD references the portrait, LinkedIn and GitHub. Local checks parse and validate the graph and its links.
-- `/robots.txt` and `/sitemap.xml` are generated from the route table. Custom 404 and Vercel clean URL configuration. The previous homepage, contact, projects and skip-link anchors remain addressable.
-- Tests verify canonical/sitemap agreement, clean routes and absence of local review media in the production output. The loopback certificate review sets `noindex, nofollow`.
+- Twelve crawlable HTML pages from six English and Arabic route pairs. English keeps its existing URLs. Arabic uses `/ar` and corresponding child routes with `lang="ar"` and `dir="rtl"`.
+- Each page has a self-referencing canonical, unique localized metadata, and reciprocal English, Arabic, and `x-default` alternates. The sitemap lists all twelve URLs and the same alternate groups. [Google's localized-page guidance](https://developers.google.com/search/docs/specialty/international/localized-versions)
+- Homepage structured data uses **Haitham Aloufee** and the owner-confirmed Arabic spelling **هيثم العوفي**, with the existing GitHub and LinkedIn links in `sameAs`. Open Graph and X card metadata use matching English and Arabic social images.
+- The production build includes `robots.txt`, a bilingual sitemap and localized error content. The loopback-only certificate review has `noindex, nofollow`.
 
-## Release and ownership
+## Search Console status · 12 November 2026
 
-1. Approve deployment through the existing GitHub → Vercel project. Confirm all six canonical routes and the sitemap load on the deployed site. The build requires Node 22.12 or newer. Confirm the Vercel project is on a compatible Node version before releasing.
-2. Apex HTTPS currently returns **307** to **www**, which returns **200**. The build uses **https://www.haitham.website/** as canonical. With hosting approval, change the apex redirect to a permanent 308 in Vercel’s Domains settings. Recheck HTTP, HTTPS, WWW and apex with deep paths. [Vercel domain redirects](https://vercel.com/docs/domains/working-with-domains/deploying-and-redirecting)
-3. Open [Google Search Console](https://search.google.com/search-console/) in the owner’s signed-in browser. Reuse the existing Domain property for `haitham.website` if present, or add it with owner approval. Search Console access and the property status remain unverified. [Google’s property instructions](https://support.google.com/webmasters/answer/34592)
-4. If Google requires DNS verification, copy the exact TXT host and value it supplies. The authoritative nameservers are `ns57.domaincontrol.com` and `ns58.domaincontrol.com`. Add the TXT record with owner permission, confirm propagation and click **Verify**. No token has been issued in this session. [Google’s DNS verification instructions](https://support.google.com/webmasters/answer/9008080)
-5. After verification and release, submit `https://www.haitham.website/sitemap.xml`. Inspect the canonical home, credential and case-study URLs, run live tests and request indexing where appropriate. [Sitemaps report](https://support.google.com/webmasters/answer/7451001) · [URL Inspection](https://support.google.com/webmasters/answer/12482179)
+1. Started the Domain property for `haitham.website` in [Google Search Console](https://search.google.com/search-console?resource_id=sc-domain%3Ahaitham.website). The site owner added the Google verification TXT record at the apex in GoDaddy.
+2. Confirmed that the TXT record matches Google's verification value on both authoritative nameservers, `ns57.domaincontrol.com` and `ns58.domaincontrol.com`, and through the Google Public DNS resolver at `8.8.8.8`. The authoritative TTL is 3600 seconds. The verification value is kept outside the repository.
+3. Search Console [settings](https://search.google.com/search-console/settings?resource_id=sc-domain%3Ahaitham.website) confirm that the signed-in account is a verified owner. The reports were still processing data.
+4. The live apex returns HTTP 307 to **https://www.haitham.website/**. The live WWW sitemap returns HTTP 404. Publishing the bilingual release requires owner approval.
 
-## Pending live checks
+## After deployment approval
 
-The current production sitemap returned 404 in the audit. Recheck canonical redirects, social previews, schema and sitemap after release. Sitemap submission, Google indexing status and Core Web Vitals field data remain pending. Local Lighthouse results are lab measurements.
+- Deploy the approved Git branch through the existing Vercel project. Check both homepages, all other canonical URLs, the localized 404, and the sitemap on the live domain.
+- Submit `https://www.haitham.website/sitemap.xml` once it returns HTTP 200 on the live site. Use URL Inspection on both homepage URLs and request indexing where appropriate. Check Google's indexing reports and selected canonicals as data becomes available. Sitemap submission, inspection of the new pages, indexing requests, and field Core Web Vitals are pending. [Sitemaps report](https://support.google.com/webmasters/answer/7451001) · [URL Inspection](https://support.google.com/webmasters/answer/12482179)

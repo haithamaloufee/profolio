@@ -44,3 +44,32 @@ Lighthouse 13.6.0, Chrome for Testing 158, Windows, local production build, defa
 | Credentials | 92 | 100 | 100 | 100 | 0.78 s | 341 ms | 0 |
 
 The three homepage scores were 84, 90 and 90. The original draft had layout shift on the credential and project pages. The final run measured zero across all four routes after reserving navigation, filter and image geometry. Raw reports are in the ignored `.qa/lighthouse` folder. Real-user LCP, CLS and INP are pending a production release and field data. TBT is a lab metric.
+
+## Bilingual, theme and motion upgrade
+
+- English remains at the established URLs. Arabic uses matching prerendered routes under `/ar`, with IBM Plex Sans Arabic, logical layout direction, localized project and credential content, and bidirectional search metadata. The language switch keeps the paired route and section hash. Light and English are the first-visit defaults.
+- The navbar uses the owner-confirmed name in both languages. The hero has no decorative role pill. Dark mode has a dedicated charcoal, violet and coral palette. The saved theme is applied in the head before the app bundle runs.
+- Native scrolling drives bounded portrait, headline, orbit and project effects. Pointer lighting and project scale respond only to fine pointers. One-shot reveals use IntersectionObserver and event-driven animation frames update transforms. The app respects reduced motion and uses native view transitions where available. [GSAP ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/) · [Motion scroll patterns](https://motion.dev/docs/react-scroll-animations) · [Codrops image and layout examples](https://tympanus.net/codrops/hub/)
+- Community photos have separate source records and matching localized captions. The group photo is tied to the student team and hackathon, and the seated portrait is tied to chess. The attached image on the signed-in Nashmi LinkedIn post was a participation certificate.
+- The owner added the Google verification TXT record in GoDaddy. Both authoritative nameservers and Google Public DNS return the matching record, and Google Search Console settings confirm verified ownership of the Domain property. The live sitemap returned HTTP 404. See [SEO_HANDOFF.md](SEO_HANDOFF.md) for the release steps.
+
+### Bilingual release checks
+
+- Lint, production build and all four Node tests passed. The browser suite exercised all 12 pages at ten widths from 320 to 1920 pixels and a landscape viewport, on Chromium and Firefox. Across the full run and the rerun after fixing dark credential contrast and Arabic result numerals, 67 checks passed. The Chromium-specific CPU throttling check was skipped in Firefox.
+- Reviewed desktop, tablet and mobile screenshots for English and Arabic in both themes. The final community screenshots show the standing group photo with the team and hackathon caption and the seated photo with the chess caption. Also checked the Arabic project view and dark credential dialog.
+- The local production preview returned HTTP 200 for the homepage, Arabic homepage, Arabic credentials, sitemap and robots, and HTTP 404 for an unknown Arabic route. Parsed the sitemap and confirmed 12 URLs with reciprocal English, Arabic and default alternate links. Checked the owner-confirmed name in the generated Arabic markup and the 1200 × 630 Arabic share card.
+
+### Bilingual Lighthouse results
+
+Lighthouse 13.6.0, Chrome for Testing 158, Windows, local production preview, one run per row. Default Lighthouse simulation for mobile and the desktop preset for desktop.
+
+| Route | Device | Performance | Accessibility | Best Practices | SEO | Lab LCP | Lab TBT | Lab CLS |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| English home | Mobile | 96 | 100 | 100 | 100 | 1.4 s | 216 ms | 0 |
+| English home | Desktop | 100 | 100 | 100 | 100 | 0.4 s | 0 ms | 0 |
+| Arabic home | Mobile | 93 | 100 | 100 | 100 | 2.0 s | 309 ms | 0.004 |
+| Arabic home | Desktop | 100 | 100 | 100 | 100 | 0.5 s | 0 ms | 0.002 |
+| Arabic credentials | Mobile | 90 | 100 | 100 | 100 | 0.8 s | 419 ms | 0.020 |
+| Arabic Youth Trainers Network | Mobile | 98 | 100 | 100 | 100 | 1.7 s | 160 ms | 0.015 |
+
+The raw reports are in the ignored `.qa/lighthouse-bilingual` folder. Field LCP, CLS and INP depend on the production release and real-user data.

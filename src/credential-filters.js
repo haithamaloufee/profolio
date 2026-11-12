@@ -1,3 +1,9 @@
+import { credentialCount } from "./locale-format.js";
+
+function normalizeSearch(text) {
+  return text.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/ـ/g, "");
+}
+
 export function enhanceFilters(form) {
   const entries = [...document.querySelectorAll("[data-category]")].map(element => ({
     element,
@@ -13,19 +19,19 @@ export function enhanceFilters(form) {
 
   function update() {
     const filters = new FormData(form);
-    const query = filters.get("q").trim().toLowerCase().split(/\s+/);
+    const query = normalizeSearch(filters.get("q")).trim().split(/\s+/);
     const category = filters.get("category");
     let visible = 0;
     for (const entry of entries) {
       const categoryMatches = category === "All" || entry.category === category;
       if (categoryMatches && query[0] && entry.text === undefined) {
-        entry.text = entry.element.textContent.toLowerCase();
+        entry.text = normalizeSearch(entry.element.textContent + " " + (entry.element.dataset.search ?? ""));
       }
       const matches = categoryMatches && (!query[0] || query.every(word => entry.text.includes(word)));
       entry.element.hidden = !matches;
       if (matches) visible += 1;
     }
-    count.textContent = visible + (visible === 1 ? " credential" : " credentials");
+    count.textContent = credentialCount(visible, document.documentElement.lang);
     empty.hidden = visible !== 0;
   }
 
