@@ -20,12 +20,12 @@ export const socialLinks = {
 
 export const portrait = {
   name: "haitham",
-  alt: "Haitham Aloufee seated in a dark suit",
-  width: 731,
-  height: 1024,
-  variants: [360, 540, 731],
+  alt: "Haitham Aloufee outdoors beside a tree, wearing a dark sweater",
+  width: 1100,
+  height: 1100,
+  variants: [320, 480, 720, 960],
   priority: 1,
-  source: { status: "verified", reference: "Previously published portrait, public/me.jpg at e6f543a" },
+  source: { status: "verified", reference: "Outdoor portrait supplied and selected by Haitham in the refinement request" },
 };
 
 export const experience = [
@@ -34,7 +34,7 @@ export const experience = [
     organization: "Crown Prince Foundation",
     period: "2026",
     type: "Training",
-    description: "Contributed to web development on a trainers network project during my software development training.",
+    description: "Worked on the Youth Trainers Network, including the public directory and trainer profile experience.",
     priority: 1,
     sources: [
       { status: "verified", reference: "Owner brief and public LinkedIn experience" },
@@ -51,6 +51,16 @@ export const experience = [
     sources: [{ status: "verified", reference: "Haitham_Aloufee_Professional_CV.pdf and public LinkedIn education" }],
   },
 ];
+
+
+export const ycs = {
+  title: "Youth Computer Scientists",
+  role: "Founder",
+  philosophy: "Programming isn’t just about code. It’s a way of thinking.",
+  summary: "I founded YCS as a student-led, nonprofit initiative to help university students build practical computer science foundations through collaborative programming and real-world problem-solving.",
+  planned: "The first edition was planned for Tafila Technical University under Al-Nokhba Club. The syllabus moves from computational thinking and programming fundamentals toward building a project as a team.",
+  source: { status: "verified", reference: "Owner’s refinement brief, YCS Program Syllabus.docx and YCS activity proposal" },
+};
 
 export const community = [
   {

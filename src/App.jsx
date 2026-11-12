@@ -9,7 +9,7 @@ export default function App({ route, review }) {
     <>
       <Header route={route} review={review} />
       <main id="main-content" tabIndex={-1}>
-        {route.page === "home" && <Home review={review} />}
+        {route.page === "home" && <Home />}
         {route.page === "credentials" && <Credentials review={review} />}
         {route.page === "project" && <Project project={route.project} />}
         {route.page === "not-found" && <div className="wrap subpage-head not-found"><h1>Page not found</h1><TextLink href="/" direction="left">Back to home</TextLink></div>}

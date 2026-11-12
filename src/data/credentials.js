@@ -1,4 +1,4 @@
-export const categories = ["Cloud", "AI", "Software Development", "Other"];
+export const categories = ["Cloud", "AI", "Software Development", "Security", "Other"];
 const portfolioProfile = "https://www.linkedin.com/in/haithamaloufee/";
 const scrimba = "Scrimba";
 const oracle = "Oracle";
@@ -41,13 +41,13 @@ const records = [
   record("prompters", "1 Million Prompters", "Dubai Future Foundation", "AI", undefined, "haitham-aloufee-certificate dubai ai promts .pdf", {
     priority: 3, description: "Writing and refining prompts for generative AI tools.", evidence: portfolioProfile,
   }),
-  record("sql-python", "Databases and SQL for Data Science with Python", "IBM · Coursera", "Software Development", "2026-10-17", "Coursera Databases and SQL for Data Science with Python.pdf"),
-  record("digital-forensics", "Cyber Security: Digital Forensics", "Macquarie University · Coursera", "Other", "2026-10-17", "Coursera Cyber Security Digital Forensics.pdf"),
-  record("secure-iot", "Developing Secure IoT Applications", "EDUCBA · Coursera", "Other", "2026-10-04", "Coursera Developing Secure IoT Applications.pdf"),
-  record("text-retrieval", "Text Retrieval and Search Engines", "University of Illinois Urbana-Champaign · Coursera", "Software Development", "2026-10-17", "Coursera Text Retrieval and Search Engines.pdf"),
-  record("endpoint-security", "Endpoint Security", cisco, "Other", "2026-10-17", "Endpoint_Security_certificate .pdf"),
-  record("network-defense", "Network Defense", cisco, "Other", "2026-10-01", "Network Defense certificate PDF"),
-  record("networking", "Networking Basics", cisco, "Other", "2026-08-28", "Networking_Basics_certificate_haithamaloufee.pdf"),
+  record("sql-python", "Databases and SQL for Data Science with Python", "IBM · Coursera", "Software Development", "2026-10-17", "Coursera Databases and SQL for Data Science with Python.pdf", { verification: "https://coursera.org/verify/PUVZUPM869ZK" }),
+  record("digital-forensics", "Cyber Security: Digital Forensics", "Macquarie University · Coursera", "Security", "2026-10-17", "Coursera Cyber Security Digital Forensics.pdf", { verification: "https://coursera.org/verify/VQLT18DM3A5W" }),
+  record("secure-iot", "Developing Secure IoT Applications", "EDUCBA · Coursera", "Security", "2026-10-04", "Coursera Developing Secure IoT Applications.pdf", { verification: "https://coursera.org/verify/F9WWCJV82XQL" }),
+  record("text-retrieval", "Text Retrieval and Search Engines", "University of Illinois Urbana-Champaign · Coursera", "Software Development", "2026-10-17", "Coursera Text Retrieval and Search Engines.pdf", { verification: "https://coursera.org/verify/40K3DF17KGLR" }),
+  record("endpoint-security", "Endpoint Security", cisco, "Security", "2026-10-17", "Endpoint_Security_certificate .pdf"),
+  record("network-defense", "Network Defense", cisco, "Security", "2026-10-01", "Network Defense certificate PDF"),
+  record("networking", "Networking Basics", cisco, "Security", "2026-08-28", "Networking_Basics_certificate_haithamaloufee.pdf"),
   record("cpf-iot", "Internet of Things (IoT) Training", "Crown Prince Foundation", "Other", "2026-04", "IT ﺗﺪرﻳﺐ إﻧﺘﺮﻧﺖ اﻷﺷﻴﺎء.pdf", { kind: "Training", evidence: portfolioProfile }),
   record("chess-speaker", "Chess Basics Workshop", ieee, "Other", "2025-10", "chess.png", {
     kind: "Speaker recognition", priority: 4,
@@ -57,7 +57,7 @@ const records = [
   record("ieee-iot", "IoT Workshop", ieee, "Other", "2025-10", "iot.png", { kind: "Workshop", evidence: portfolioProfile }),
   record("ieee-pcb", "PCB Design Workshop", ieee, "Other", "2025-10", "pcb.png", { kind: "Workshop", evidence: portfolioProfile }),
   record("ieee-3d", "3D Modeling & Printing", ieee, "Other", "2025-09", "3d.jpg", { kind: "Workshop", evidence: portfolioProfile }),
-  record("ieee-cyber", "Cyber Security Workshop", ieee, "Other", "2025-09", "cyber.jpg", { kind: "Workshop", evidence: portfolioProfile }),
+  record("ieee-cyber", "Cyber Security Workshop", ieee, "Security", "2025-09", "cyber.jpg", { kind: "Workshop", evidence: portfolioProfile }),
   record("ieee-ai", "Introduction to AI Workshop", ieee, "AI", "2025-10", "AI.png", { kind: "Workshop" }),
   record("ieee-python", "Python Workshop", ieee, "Software Development", "2025-09", "python.png and python.pdf", { kind: "Workshop", evidence: portfolioProfile }),
   record("ieee-member", "IEEE Student Membership", "IEEE", "Other", undefined, "MEMIEEE.pdf", { kind: "Student membership", expires: "2026-12" }),

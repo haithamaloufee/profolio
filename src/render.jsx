@@ -14,7 +14,7 @@ const schema = {
     {
       "@type": "Person", "@id": personId,
       name: personal.name, url: homeUrl,
-      image: siteUrl + "/media/haitham-731.jpg",
+      image: siteUrl + "/media/haitham-960.jpg",
       sameAs: [socialLinks.github, socialLinks.linkedin],
     },
     {
@@ -32,7 +32,6 @@ function Metadata({ route, review }) {
     <>
       <title>{route.title}</title>
       <meta name="description" content={route.description} />
-      {route.page === "home" && <link rel="preload" href="/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossOrigin="" />}
       {!indexable && <meta name="robots" content="noindex, nofollow" />}
       {indexable && <>
         <link rel="canonical" href={canonical} />

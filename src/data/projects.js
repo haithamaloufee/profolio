@@ -8,7 +8,7 @@ const records = [
     intro: "An Arabic-first platform for exploring public updates, political parties and legislation in Jordan.",
     priority: 1,
     stack: ["Next.js", "TypeScript", "React", "MongoDB"],
-    image: { name: "nashmi", alt: "Nashmi’s Arabic home page with a photograph of Amman and navigation for civic information", width: 1891, height: 932, variants: [480, 800, 1200, 1600] },
+    image: { name: "nashmi", alt: "Nashmi’s Arabic home page with Jordanian landmarks and navigation for civic information", width: 1891, height: 932, variants: [480, 800, 1200, 1600] },
     repository: "https://github.com/haithamaloufee/Nashmi",
     demo: "https://nashmii.vercel.app/",
     sources: [
@@ -23,12 +23,34 @@ const records = [
     ],
   },
   {
+    slug: "youth-trainers-network",
+    title: "Youth Trainers Network",
+    subtitle: "A public directory backed by a verification workflow",
+    kind: "Software development training · Platform",
+    intro: "A platform for discovering verified young trainers in Jordan, with dedicated tools for trainers and staff to manage professional profiles and review submissions.",
+    priority: 2,
+    stack: ["Next.js", "TypeScript", "React", "Supabase", "PostgreSQL"],
+    image: { name: "trainers", alt: "Arabic public landing page for the Youth Trainers Network, with a map of Jordan on a burgundy background", width: 1892, height: 936, variants: [480, 800, 1200, 1600] },
+    demo: "https://tms-dev.haitham.website/",
+    demoLabel: "Open public site",
+    sources: [
+      { status: "verified", reference: "Public Arabic landing page and previously published public/tms.png at e6f543a" },
+      { status: "private", reference: "Local TMS history 7496178, ebff82b and 01c263d and system documentation" },
+    ],
+    sections: [
+      { title: "The problem", body: "People looking for a trainer need a useful public directory. Trainers and staff also need a separate place to maintain profiles and review submissions before they are visible." },
+      { title: "My contribution", body: "I worked on the public directory experience, trainer profile editing and the showcase for previous training experiences. I also contributed accessibility and right-to-left interface fixes." },
+      { title: "How it fits together", body: "Next.js serves the Arabic public site and separate authenticated views. Supabase provides authentication and PostgreSQL. The implementation separates the public directory from role-based trainer and staff views." },
+      { title: "What came out of it", body: "Visitors can browse published trainer profiles. Trainers can maintain a profile and submit changes for review, while staff use separate tools to review those submissions and manage records." },
+    ],
+  },
+  {
     slug: "chef-haitham",
     title: "Chef Haitham",
     subtitle: "Dinner from what’s already in the kitchen",
     kind: "Personal project · AI prototype",
     intro: "A recipe prototype that takes a short ingredient list and turns it into a cooking suggestion.",
-    priority: 2,
+    priority: 3,
     stack: ["React", "JavaScript", "Gemini"],
     image: { name: "chef", alt: "Chef Haitham’s ingredient list and an example recipe shown in the app", width: 1541, height: 927, variants: [480, 800, 1200, 1541] },
     repository: "https://github.com/haithamaloufee/AI-Chef",
@@ -50,7 +72,7 @@ const records = [
     subtitle: "An Arabic prototype for public services",
     kind: "Personal project · Service design prototype",
     intro: "An Arabic-language demo of finding a service, requesting a document and moving through a payment flow.",
-    priority: 3,
+    priority: 4,
     stack: ["HTML", "CSS", "JavaScript", "Express", "SQLite"],
     image: { name: "services", alt: "The prototype’s Arabic home page with document service options", width: 1533, height: 906, variants: [480, 800, 1200, 1533] },
     repository: "https://github.com/haithamaloufee/government-services-portal",
@@ -68,5 +90,13 @@ const records = [
   },
 ];
 
-export const projects = records.filter(project => project.sources.every(source => source.status === "verified"))
+export const projects = records.filter(project => project.sources.some(source => source.status === "verified")
+  && !project.sources.some(source => source.status === "needs-review"))
   .sort((first, second) => first.priority - second.priority);
+
+export const practiceProjects = [
+  { title: "Dice Game", subtitle: "A timed Tenzies game built in React.", href: "https://github.com/haithamaloufee/Dice-Game", demo: "https://haitham-dice-game.vercel.app/" },
+  { title: "Assimbly Endgame", subtitle: "A programming-themed word guessing game.", href: "https://github.com/haithamaloufee/Assimbly-Endgame", demo: "https://assimbly-endgame.vercel.app/" },
+  { title: "Meme Generator", subtitle: "A browser editor for placing captions on images.", href: "https://github.com/haithamaloufee/Meme-Generator", demo: "https://meme-generator-haitham.vercel.app/" },
+  { title: "The Domain Platform", subtitle: "Source for an events site, content dashboard and API.", href: "https://github.com/haithamaloufee/the-domain-platform" },
+];

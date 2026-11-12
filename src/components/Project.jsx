@@ -20,8 +20,8 @@ export function Project({ project }) {
                 {project.stack.map(item => <li key={item}>{item}</li>)}
               </ul>
               <div className="project-links">
-                {project.demo && <TextLink href={project.demo} direction="up">Open public demo</TextLink>}
-                <TextLink href={project.repository} direction="up">View source on GitHub</TextLink>
+                {project.demo && <TextLink href={project.demo} direction="up">{project.demoLabel ?? "Open public demo"}</TextLink>}
+                {project.repository && <TextLink href={project.repository} direction="up">View source on GitHub</TextLink>}
               </div>
             </div>
           </div>

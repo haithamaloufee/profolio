@@ -3,13 +3,8 @@ const toggle = document.querySelector(".menu-toggle");
 const narrow = matchMedia("(max-width: 700px)");
 
 function setMenu(open) {
-  navigation.hidden = narrow.matches && !open;
   toggle.setAttribute("aria-expanded", String(narrow.matches && open));
 }
-
-document.documentElement.classList.add("menu-enhanced");
-toggle.hidden = false;
-setMenu(false);
 
 toggle.addEventListener("click", () => setMenu(toggle.getAttribute("aria-expanded") !== "true"));
 narrow.addEventListener("change", () => setMenu(false));
@@ -35,4 +30,14 @@ const catalog = document.querySelector("#credential-filters");
 if (catalog) import("./credential-filters.js").then(({ enhanceFilters }) => enhanceFilters(catalog));
 
 const motion = matchMedia("(prefers-reduced-motion: no-preference)");
-if (motion.matches) import("./motion.js").then(({ enhanceMotion }) => enhanceMotion(motion));
+const portrait = document.querySelector("[data-portrait]");
+function startMotion() {
+  if (!motion.matches) return;
+  removeEventListener("scroll", startMotion);
+  portrait?.removeEventListener("pointerenter", startMotion);
+  import("./motion.js").then(({ enhanceMotion }) => enhanceMotion(motion, portrait));
+}
+if (motion.matches) {
+  addEventListener("scroll", startMotion, { passive: true });
+  portrait?.addEventListener("pointerenter", startMotion, { passive: true });
+}

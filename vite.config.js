@@ -3,7 +3,6 @@ import { readFile, stat } from "node:fs/promises";
 import { join } from "node:path";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import { resolveRoute } from "./src/routes.js";
 
 const loopback = new Set(["127.0.0.1", "localhost", "::1"]);
 
@@ -34,9 +33,11 @@ function editorialPages() {
         try {
           const template = await readFile(join(server.config.root, "index.html"), "utf8");
           const { renderPage } = await server.ssrLoadModule("/src/render.jsx");
-          const review = reviewEnabled
-            ? JSON.parse(await readFile(join(reviewDirectory, "manifest.json"), "utf8"))
-            : undefined;
+          const manifest = reviewEnabled ? await readFile(join(reviewDirectory, "manifest.json"), "utf8").catch(error => {
+            if (error.code !== "ENOENT") throw error;
+            return null;
+          }) : null;
+          const review = manifest ? JSON.parse(manifest) : undefined;
           const { html, status } = renderPage(template, path === "/index.html" ? "/" : path, review);
           const result = await server.transformIndexHtml(req.url, html);
           res.writeHead(status, { "Content-Type": "text/html; charset=utf-8" });
@@ -52,7 +53,7 @@ function editorialPages() {
         server.middlewares.use(async (req, res, next) => {
           if (!["GET", "HEAD"].includes(req.method) || !req.headers.accept?.includes("text/html")) return next();
           const path = new URL(req.url, "http://localhost").pathname;
-          if (path === "/index.html" || resolveRoute(path.replace(/\.html$/, ""))) return next();
+          if (path.endsWith(".html")) return next();
           try {
             const html = await readFile(join(server.config.root, server.config.build.outDir, "404.html"), "utf8");
             res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });

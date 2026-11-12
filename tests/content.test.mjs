@@ -27,7 +27,8 @@ test("case study routes resolve and media variants exist", () => {
   for (const project of projects) {
     const path = "/work/" + project.slug;
     assert.equal(resolveRoute(path + "/").project, project);
-    assert.match(project.repository, /^https:\/\/github\.com\/haithamaloufee\//);
+    if (project.repository) assert.match(project.repository, /^https:\/\/github\.com\/haithamaloufee\//);
+    assert.ok(project.repository || project.demo);
     assert.ok(project.sections.length >= 4);
   }
   for (const image of [portrait, ...projects.map(project => project.image)]) {
@@ -54,7 +55,7 @@ test("static output contains unique search metadata and stays free of local revi
     assert.ok(sitemap.includes("<loc>" + siteUrl + route.path + "</loc>"));
     assert.match(html, /<meta property="og:image" content="https:\/\/www\.haitham\.website\/og-image\.png"/);
     assert.equal([...html.matchAll(/<h1[\s>]/g)].length, 1);
-    assert.doesNotMatch(html, /_review|Local review|noindex|TMS\.git|tms-dev\.haitham/);
+    assert.doesNotMatch(html, /_review|Local review|noindex|TMS\.git/);
     titles.add(html.match(/<title>(.*?)<\/title>/)[1]);
   }
   assert.equal(titles.size, routes.length);

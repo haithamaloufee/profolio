@@ -1,11 +1,16 @@
 export function enhanceFilters(form) {
   const entries = [...document.querySelectorAll("[data-category]")].map(element => ({
     element,
+    summary: element.querySelector("summary"),
     text: element.textContent.toLowerCase(),
     category: element.dataset.category,
   }));
   const count = document.querySelector("#result-count");
   const empty = document.querySelector("#empty-state");
+  const dialog = document.querySelector(".credential-dialog");
+  const title = dialog.querySelector("h2");
+  const content = dialog.querySelector(".dialog-content");
+  let returnFocus;
 
   function update() {
     const filters = new FormData(form);
@@ -21,29 +26,49 @@ export function enhanceFilters(form) {
     empty.hidden = visible !== 0;
   }
 
-  form.addEventListener("input", update);
-  form.addEventListener("submit", event => event.preventDefault());
   function clearFilters() {
     form.elements.q.value = "";
     form.querySelector('input[value="All"]').checked = true;
     update();
   }
 
+  function openPreview(entry) {
+    returnFocus = entry.summary;
+    title.textContent = entry.element.querySelector(".credential-title").textContent;
+    content.replaceChildren(entry.element.querySelector(".credential-detail").cloneNode(true));
+    if (!dialog.open) dialog.showModal();
+  }
+
+  form.addEventListener("input", update);
+  form.addEventListener("submit", event => event.preventDefault());
   form.addEventListener("reset", event => {
     event.preventDefault();
     clearFilters();
     form.elements.q.focus();
   });
+  update();
+  if (typeof dialog.showModal !== "function") return;
+
+  dialog.addEventListener("close", () => {
+    returnFocus?.focus({ preventScroll: true });
+    content.replaceChildren();
+  });
+
+  for (const entry of entries) {
+    entry.summary.setAttribute("aria-haspopup", "dialog");
+    entry.summary.addEventListener("click", event => {
+      event.preventDefault();
+      openPreview(entry);
+    });
+  }
 
   function openTarget() {
     const target = entries.find(entry => "#" + entry.element.id === location.hash);
     if (!target) return;
     if (target.element.hidden) clearFilters();
-    target.element.querySelector("details").open = true;
+    openPreview(target);
   }
 
-  form.hidden = false;
-  update();
   openTarget();
   window.addEventListener("hashchange", openTarget);
 }

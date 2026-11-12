@@ -11,7 +11,7 @@ export function Picture({ image, sizes, eager = false }) {
   const prefix = "/media/" + image.name + "-";
   const srcset = format => image.variants.map(width => prefix + width + "." + format + " " + width + "w").join(", ");
   return (
-    <picture>
+    <picture style={{ "--image-ratio": image.width + " / " + image.height }}>
       <source type="image/avif" srcSet={srcset("avif")} sizes={sizes} />
       <source type="image/webp" srcSet={srcset("webp")} sizes={sizes} />
       <img src={prefix + image.variants.at(-1) + ".jpg"} srcSet={srcset("jpg")} sizes={sizes}
@@ -30,10 +30,10 @@ export function SectionHeading({ label, title, children, id }) {
   );
 }
 
-export function ReviewPhoto({ media, caption }) {
+export function StoryPhoto({ media, caption }) {
   if (!media) return null;
   return (
-    <figure className="review-photo">
+    <figure className="story-photo">
       <img {...media} loading="lazy" decoding="async" />
       <figcaption>{caption}</figcaption>
     </figure>

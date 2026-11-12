@@ -6,7 +6,7 @@ export const routes = [
     path: "/",
     page: "home",
     title: "Haitham Aloufee | Full-Stack Developer & CIS Student",
-    description: "Explore software projects, certifications and community work by Haitham Aloufee, a full-stack developer and Computer Information Systems student in Jordan.",
+    description: "Explore Nashmi, the Youth Trainers Network, YCS and credentials from Haitham Aloufee, a full-stack developer and CIS student in Jordan.",
   },
   {
     path: "/credentials",
