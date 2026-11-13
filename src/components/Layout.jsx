@@ -1,5 +1,6 @@
 import { localizedPath } from "../content.js";
 import { socialLinks } from "../data/profile.js";
+import { ContactIcon } from "./ContactIcon.jsx";
 import { Arrow, TextLink } from "./UI.jsx";
 
 export function Header({ route, content, review }) {
@@ -44,12 +45,20 @@ export function Header({ route, content, review }) {
   );
 }
 
-export function SocialLinks({ copy: c, includeEmail = false }) {
+export function ContactLink({ kind, children, className = "text-link" }) {
+  return <a className={className} href={socialLinks[kind]}><ContactIcon kind={kind} />{children}</a>;
+}
+
+export function SocialLinks({ copy: c, includeContact = false }) {
   return (
     <ul className="social-links">
-      <li><TextLink href={socialLinks.github} direction="up"><bdi lang="en">GitHub</bdi></TextLink></li>
-      <li><TextLink href={socialLinks.linkedin} direction="up"><bdi lang="en">LinkedIn</bdi></TextLink></li>
-      {includeEmail && <li><TextLink href={socialLinks.email} direction="up">{c.email}</TextLink></li>}
+      <li><ContactLink kind="github"><bdi lang="en">GitHub</bdi></ContactLink></li>
+      <li><ContactLink kind="linkedin"><bdi lang="en">LinkedIn</bdi></ContactLink></li>
+      {includeContact && <>
+        <li><ContactLink kind="email">{c.email}</ContactLink></li>
+        <li><ContactLink kind="phone">{c.phone}</ContactLink></li>
+        <li><ContactLink kind="whatsapp">{c.whatsapp}</ContactLink></li>
+      </>}
     </ul>
   );
 }
@@ -61,7 +70,7 @@ export function Footer({ content }) {
       <div className="wrap footer-inner">
         <a className="wordmark" href={localizedPath("/", language)}><span className="brand-mark" aria-hidden="true">H</span>{c.name}</a>
         <span className="footer-place">{c.jordan}</span>
-        <SocialLinks copy={c} includeEmail />
+        <SocialLinks copy={c} includeContact />
         <TextLink className="back-top" href="#top" direction="top">{c.top}</TextLink>
       </div>
     </footer>

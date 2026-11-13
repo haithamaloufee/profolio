@@ -1,6 +1,6 @@
 import { localizedPath } from "../content.js";
 import { socialLinks } from "../data/profile.js";
-import { SocialLinks } from "./Layout.jsx";
+import { ContactLink, SocialLinks } from "./Layout.jsx";
 import { Arrow, Picture, StoryPhoto, SectionHeading, TextLink } from "./UI.jsx";
 
 function Hero({ content }) {
@@ -83,25 +83,32 @@ function Work({ content }) {
   );
 }
 function About({ content }) {
-  const { copy: c, experience } = content;
+  const { copy: c, experience, language, projects } = content;
   return (
     <section className="section about" id="about" aria-labelledby="about-title">
       <div className="wrap">
-        <SectionHeading label={c.about} title={c.journey} id="about-title" />
+        <SectionHeading label={c.about} title={c.aboutTitle} id="about-title" />
         <div className="about-grid">
           <div className="about-copy" data-reveal>
             {c.aboutCopy.map(text => <p key={text}>{text}</p>)}
           </div>
-          <ol className="timeline" aria-label={c.experience}>
-            {experience.map(item => (
-              <li key={item.title} data-reveal>
-                <p className="eyebrow">{item.type} <span aria-hidden="true">/</span> {item.period}</p>
-                <h3>{item.title}</h3>
-                <p className="organization">{item.organization}</p>
-                <p>{item.description}</p>
-              </li>
-            ))}
-          </ol>
+          <section aria-labelledby="experience-title">
+            <h3 id="experience-title" className="experience-title">{c.experience}</h3>
+            <ol className="timeline">
+              {experience.map(item => {
+                const project = item.projectSlug && projects.find(project => project.slug === item.projectSlug);
+                return (
+                  <li key={item.title} data-reveal>
+                    <p className="eyebrow">{item.type} <span aria-hidden="true">/</span> {item.period}</p>
+                    <h4>{item.title}</h4>
+                    <p className="organization">{item.organization}</p>
+                    <p>{item.description}</p>
+                    {project && <TextLink href={localizedPath("/work/" + project.slug, language)}>{c.caseStudy(project.title)}</TextLink>}
+                  </li>
+                );
+              })}
+            </ol>
+          </section>
         </div>
       </div>
     </section>
@@ -149,7 +156,7 @@ function FeaturedCredentials({ content }) {
 }
 
 function Beyond({ content }) {
-  const { copy: c, community } = content;
+  const { copy: c, community, volunteering } = content;
   return (
     <section className="wrap section beyond" id="beyond" aria-labelledby="beyond-title">
       <SectionHeading label={c.community} title={c.beyondTitle} id="beyond-title" />
@@ -163,6 +170,12 @@ function Beyond({ content }) {
             <TextLink href={item.link.href} direction="up">{item.link.label}</TextLink>
           </article>
         ))}
+        <article className="community-event" data-reveal>
+          <p className="eyebrow">{c.upcomingVolunteering}</p>
+          <h3>{volunteering.title}</h3>
+          <p>{volunteering.body}</p>
+          <TextLink href={volunteering.href} direction="up">{c.eventDetails}</TextLink>
+        </article>
       </div>
     </section>
   );
@@ -176,7 +189,11 @@ function Contact({ content }) {
         <div data-reveal><p className="eyebrow">{c.contactLabel}</p><h2 id="contact-title">{c.contactHeading[0]} <em>{c.contactHeading[1]}</em></h2></div>
         <div className="contact-actions">
           <p>{c.contactCopy}</p>
-          <a className="button" href={socialLinks.email}>{c.send} <Arrow direction="up" /></a>
+          <ul className="contact-links">
+            <li><ContactLink kind="email" className="button">{c.send}</ContactLink></li>
+            <li><ContactLink kind="phone">{c.phone} <bdi dir="ltr">{socialLinks.phoneNumber}</bdi></ContactLink></li>
+            <li><ContactLink kind="whatsapp">{c.whatsapp}</ContactLink></li>
+          </ul>
         </div>
       </div>
     </section>

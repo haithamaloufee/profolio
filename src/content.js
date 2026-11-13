@@ -1,6 +1,6 @@
 import { copy } from "./copy.js";
 import { credentials } from "./data/credentials.js";
-import { community, experience, portrait, ycs } from "./data/profile.js";
+import { community, experience, personal, portrait, volunteering, ycs } from "./data/profile.js";
 import { practiceProjects, projects } from "./data/projects.js";
 import {
   credentialArabic, credentialDescriptions, credentialKinds, issuerArabic, practiceArabic, profileArabic, projectArabic,
@@ -23,11 +23,14 @@ export function localizedPath(path, language) {
 
 export function getContent(language) {
   const ar = language === "ar";
+  const { title, bio } = ar ? profileArabic : personal;
   return {
     language, copy: copy[language],
+    profile: { title, bio },
     portrait: ar ? { ...portrait, alt: profileArabic.portrait } : portrait,
     experience: ar ? profileArabic.experience : experience,
     ycs: ar ? profileArabic.ycs : ycs,
+    volunteering: ar ? { ...volunteering, ...profileArabic.volunteering } : volunteering,
     community: community.map(item => {
       const photo = communityPhotos[item.id];
       if (!ar) return { ...item, photo };

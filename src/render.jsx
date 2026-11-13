@@ -9,22 +9,26 @@ export { routes };
 const homeUrl = siteUrl + "/";
 const personId = homeUrl + "#haitham";
 
-const schema = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person", "@id": personId,
-      name: personal.name, alternateName: contentByLanguage.ar.copy.name, url: homeUrl,
-      image: siteUrl + "/media/haitham-960.jpg",
-      sameAs: [socialLinks.github, socialLinks.linkedin],
-    },
-    {
-      "@type": "WebSite", "@id": homeUrl + "#website",
-      name: personal.name, alternateName: contentByLanguage.ar.copy.name, url: homeUrl, inLanguage: languages,
-      publisher: { "@id": personId },
-    },
-  ],
-};
+function profileSchema(route) {
+  const { profile } = contentByLanguage[route.language];
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person", "@id": personId,
+        name: personal.name, alternateName: contentByLanguage.ar.copy.name, url: homeUrl,
+        jobTitle: profile.title, description: profile.bio,
+        image: siteUrl + "/media/haitham-960.jpg",
+        sameAs: [socialLinks.github, socialLinks.linkedin],
+      },
+      {
+        "@type": "WebSite", "@id": homeUrl + "#website",
+        name: personal.name, alternateName: contentByLanguage.ar.copy.name, url: homeUrl, inLanguage: languages,
+        publisher: { "@id": personId },
+      },
+    ],
+  };
+}
 
 function alternateUrls(basePath) {
   return [
@@ -63,7 +67,7 @@ function Metadata({ route, review }) {
         <meta name="twitter:description" content={route.description} />
         <meta name="twitter:image" content={image} />
         <meta name="twitter:image:alt" content={imageAlt} />
-        {route.page === "home" && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replaceAll("<", "\\u003c") }} />}
+        {route.page === "home" && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(profileSchema(route)).replaceAll("<", "\\u003c") }} />}
       </>}
     </>
   );

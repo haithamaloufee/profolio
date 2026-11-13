@@ -3,18 +3,23 @@ export const siteUrl = "https://www.haitham.website";
 export const personal = {
   name: "Haitham Aloufee",
   location: "Jordan",
-  title: "Full-stack developer & CIS student",
-  bio: "I’m Haitham, a Computer Information Systems student in Jordan. I build web applications around practical ideas, from civic information to figuring out what to cook.",
+  title: "Full-Stack Web Developer",
+  bio: "Haitham Aloufee is a full-stack web developer in Jordan. He contributed to the Youth Trainers Network and founded Youth Computer Scientists (YCS).",
   sources: [
     { status: "verified", reference: "Haitham_Aloufee_Professional_CV.pdf" },
     { status: "verified", reference: "https://github.com/haithamaloufee" },
   ],
 };
 
+const phone = "+962782940161";
+
 export const socialLinks = {
   github: "https://github.com/haithamaloufee",
   linkedin: "https://www.linkedin.com/in/haithamaloufee/",
   email: "mailto:haithamaloufee@gmail.com",
+  phone: "tel:" + phone,
+  phoneNumber: phone,
+  whatsapp: "https://wa.me/" + phone.slice(1),
   sources: [{ status: "verified", reference: "Public GitHub and LinkedIn profiles; email previously published in src/data/profile.js at e6f543a" }],
 };
 
@@ -34,7 +39,8 @@ export const experience = [
     organization: "Crown Prince Foundation",
     period: "2026",
     type: "Training",
-    description: "Worked on the Youth Trainers Network, including the public directory and trainer profile experience.",
+    description: "I contributed to the Youth Trainers Network’s public directory, trainer profile editing, and display of past training experience.",
+    projectSlug: "youth-trainers-network",
     priority: 1,
     sources: [
       { status: "verified", reference: "Owner brief and public LinkedIn experience" },
@@ -85,3 +91,13 @@ export const community = [
     ],
   },
 ];
+
+export const volunteering = {
+  title: "English Language Olympia (ELO 2026)",
+  body: "I was selected to volunteer with the Classification and Evaluation Committee for the event scheduled for December 2026 in Amman.",
+  href: "https://elo.international/uni/",
+  sources: [
+    { status: "verified", reference: "Haitham’s confirmation of his volunteer selection and committee name" },
+    { status: "verified", reference: "Official ELO university event website for the schedule and location" },
+  ],
+};

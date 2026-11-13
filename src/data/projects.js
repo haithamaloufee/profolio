@@ -4,7 +4,7 @@ const records = [
     slug: "nashmi",
     title: "Nashmi",
     subtitle: "A clearer way into civic information",
-    kind: "Team project · Civic technology",
+    kind: "Student hackathon · Civic technology",
     intro: "An Arabic-first platform for exploring public updates, political parties and legislation in Jordan.",
     priority: 1,
     stack: ["Next.js", "TypeScript", "React", "MongoDB"],
@@ -39,7 +39,7 @@ const records = [
     ],
     sections: [
       { title: "The problem", body: "People looking for a trainer need a useful public directory. Trainers and staff also need a separate place to maintain profiles and review submissions before they are visible." },
-      { title: "My contribution", body: "I worked on the public directory experience, trainer profile editing and the showcase for previous training experiences. I also contributed accessibility and right-to-left interface fixes." },
+      { title: "My contribution", body: "During my software development training at the Crown Prince Foundation, I contributed to the public directory, trainer profile editing, and display of past training experience. I also helped improve accessibility and right-to-left layouts." },
       { title: "How it fits together", body: "Next.js serves the Arabic public site and separate authenticated views. Supabase provides authentication and PostgreSQL. The implementation separates the public directory from role-based trainer and staff views." },
       { title: "What came out of it", body: "Visitors can browse published trainer profiles. Trainers can maintain a profile and submit changes for review, while staff use separate tools to review those submissions and manage records." },
     ],
